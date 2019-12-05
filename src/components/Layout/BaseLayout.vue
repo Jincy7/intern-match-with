@@ -35,9 +35,11 @@
                 <li><a href="#">Intern Search</a></li>
                 <!--        <li><a class="codrops-icon codrops-icon-prev" href="#"><span>Previous Demo</span></a></li>-->
                 <!--    TODO : 로그인 후에는 아래 코드 로그인 된 걸로 하고 사용자 이름 보여주고, 로그아웃 버튼 표출  -->
-                <li><a class="codrops-icon codrops-icon-drop" href="#"><span>Login for Service</span></a></li>
-
+                <li><a @click="toggleLogin" href="#"><span>Login for Service</span></a></li>
             </ul>
+            <div v-show="isLoginClicked" class="login-form-container">
+                <login-form></login-form>
+            </div>
 <!--            Main Panel -->
             <div>
                 <router-view/>
@@ -47,11 +49,31 @@
 </template>
 
 <script>
+    import LoginForm from "@/components/UiComponents/LoginForm";
+
     export default {
-        name: "BaseLayout"
+        name: "BaseLayout",
+        components: {
+            LoginForm
+        },
+        data: () => {
+            return {
+                isLogin: false,
+                isLoginClicked: false,
+            }
+        },
+        methods : {
+            toggleLogin: function () {
+                this.isLoginClicked = !this.isLoginClicked;
+            }
+        }
     }
 </script>
 
 <style scoped>
-
+.login-form-container {
+    position: absolute;
+    top: 76px;
+    right: 16px;
+}
 </style>

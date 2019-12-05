@@ -101,6 +101,7 @@
 		overflow: hidden;
 		width: 60px;
 		border-top: 1px solid #c6d0da;
+		border-right: 1px solid #c6d0da;
 		background: white;
 		-webkit-transform: translateX(-60px);
 		-moz-transform: translateX(-60px);
@@ -316,7 +317,7 @@ input.gn-search:focus {
 		height: 60px
 }
 
-@media screen and (max-width: 422px) { 
+@media screen and (max-width: 422px) {
 	.gn-menu-wrapper.gn-open-all {
 			-webkit-transform: translateX(0px);
 			-moz-transform: translateX(0px);

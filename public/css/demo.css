@@ -11,7 +11,8 @@
 }
 
 body {
-	background: #34495e;
+	background: #34495e url("../images/glasses.jpg") !important;
+	background-size: cover !important;
 }
 
 .container header,
