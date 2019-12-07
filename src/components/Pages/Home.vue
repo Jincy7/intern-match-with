@@ -2,9 +2,15 @@
     <v-fragment>
         <div class="dimmer">
             <header>
-                <h1>인턴 같이 탐색, Website Menu
-        <!--            <span>A sidebar menu as seen on the <a href="#">Google Nexus 7</a> page</span>-->
-                </h1>
+<!--                <sui-card-group :items-per-row="5">-->
+<!--                    <sui-card :key="company" v-for="company in companyCardInfo">-->
+<!--                        <sui-image :src="company.imageSrc" />-->
+<!--                        <sui-card-content>-->
+<!--                            <sui-card-header>{{company.header}}</sui-card-header>-->
+<!--                            <sui-card-meta>{{company.desc}}</sui-card-meta>-->
+<!--                        </sui-card-content>-->
+<!--                    </sui-card>-->
+<!--                </sui-card-group>-->
             </header>
             <div class="home-container">
                 <search-form></search-form>
@@ -77,6 +83,27 @@
         name: "Home",
         components: {
             SearchForm
+        },
+        data: () => {
+            return {
+                companyCardInfo: [
+                    {
+                        imageSrc: require(`@/../public/images/Samsung.png`),
+                        header: `삼성`,
+                        desc: `Samsung`
+                    },
+                    {
+                        imageSrc: require(`@/../public/images/Naver.jpg`),
+                        header: `네이버`,
+                        desc: `Naver`
+                    },
+                    {
+                        imageSrc: require(`@/../public/images/Kakao.png`),
+                        header: `카카오`,
+                        desc: `KaKao`
+                    },
+                ]
+            }
         }
     }
 </script>
