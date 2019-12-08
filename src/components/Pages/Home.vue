@@ -10,7 +10,7 @@
                            <sui-card-meta>{{company.desc}}</sui-card-meta>
                        </sui-card-content>
                    </sui-card>
-                </sui-card-group>  
+                </sui-card-group>
             </header>
             <div class="home-container">
                 <search-form></search-form>
@@ -45,7 +45,7 @@
                                         <sui-list bulleted >
                                             <sui-list-item :key="item" v-for="item in desc.list">{{item}}</sui-list-item>
                                         </sui-list>
-                                    </sui-list-content>   
+                                    </sui-list-content>
                                 </sui-list-item>
                             </sui-list>
                         </sui-card-content>
@@ -71,7 +71,7 @@
                                             <textarea></textarea>
                                         </div>
                                         </div>
-                                    </sui-list-content>   
+                                    </sui-list-content>
                                 </sui-list-item>
                             </sui-list>
                         </sui-card-content>
@@ -93,19 +93,6 @@
         name: "Home",
         components: {
             SearchForm
-        },
-        methods: {
-            loadModal1(id) {
-                this.modalId = id
-                this.modal1 = !this.modal1
-            },
-            toggle1() {
-                this.modal1 = !this.modal1
-            },
-            toggle2() {
-                this.modal2 = !this.modal2
-                this.modal1 = false
-            },
         },
         data: () => {
             return {
@@ -339,7 +326,18 @@
                 // internInfo.foreach(el = > {el.isShow = false});
                 // internInfo.filter((el) => el.name.includes(query)).foreach(el = > {el.isShow = true});
                 console.log(query)
-            }
+            },
+            loadModal1(id) {
+                this.modalId = id
+                this.modal1 = !this.modal1
+            },
+            toggle1() {
+                this.modal1 = !this.modal1
+            },
+            toggle2() {
+                this.modal2 = !this.modal2
+                this.modal1 = false
+            },
         },
         created() {
             this.$store.subscribe((mutation, state) => {
