@@ -12,7 +12,7 @@
                                     <a class="gn-icon gn-icon-search"><span>검색하기</span></a>
                                 </li>
                                 <li>
-                                    <a class="gn-icon gn-icon-download">지원 현황 확인</a>
+                                    <a class="gn-icon gn-icon-download" v-bind:href="'/companies/' + this.loginCompanyId">지원 현황 확인</a>
 <!--                                    <ul class="gn-submenu">-->
 <!--                                        <li><a class="gn-icon gn-icon-illustrator">Vector Illustrations</a></li>-->
 <!--                                        <li><a class="gn-icon gn-icon-photoshop">Photoshop files</a></li>-->
