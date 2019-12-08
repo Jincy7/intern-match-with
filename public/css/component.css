@@ -36,6 +36,7 @@
 		width: 100%;
 		height: 60px;
 		font-size: 13px;
+		z-index: 9999;
 }
 
 .gn-menu-main a {

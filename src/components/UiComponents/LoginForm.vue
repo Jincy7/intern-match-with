@@ -1,5 +1,5 @@
 <template>
-    <sui-card>
+    <sui-card class="login-form">
         <sui-card-content>
             <sui-card-header class="form-header">로그인</sui-card-header>
             <sui-form>
@@ -47,6 +47,9 @@
 </script>
 
 <style scoped>
+    .login-form {
+        z-index: 99999;
+    }
 .form-header {
     text-align: center;
     margin: 16px;

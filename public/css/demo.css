@@ -24,7 +24,7 @@ body {
 
 .container header {
 	margin: 0 auto;
-	padding: 12em 2em;
+	padding: 4em 20em;
 	background: rgba(0,0,0,0.25);
 }
 
@@ -41,8 +41,9 @@ body {
 .container header h1 {
 	font-size: 3.2em;
 	line-height: 1.3;
-	margin: 0;
+	margin: 0.8em 0;
 	font-weight: 300;
+	color: white;
 }
 
 .container header span {

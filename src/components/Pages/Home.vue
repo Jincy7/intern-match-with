@@ -1,7 +1,9 @@
 <template>
     <v-fragment>
-        <div class="dimmer">
+        <div class="dimmer"></div>
+        <div>
             <header>
+                <h1>참여중인 기업</h1>
                <sui-card-group :items-per-row="5">
                    <sui-card :key="company" v-for="company in companyInfo">
                        <sui-image :src="company.imageSrc" size="large"/>
@@ -19,7 +21,7 @@
                         <sui-card-header>진행중인 공고 목록</sui-card-header>
                         <sui-card-meta>기업에서 진행중인 인턴 공고입니다!</sui-card-meta>
                         <sui-list divided relaxed>
-                            <sui-list-item :key="info" v-for="info in internInfo">
+                            <sui-list-item v-show="info.isShow" :key="info" v-for="info in internInfo">
                                 <sui-image :src="info.imageSrc" size="mini"/>
                                 <sui-list-content>
                                     <a is="sui-list-header" v-on:click="loadInternInfoModal(info.id)">{{info.internName}}</a>
@@ -382,10 +384,25 @@
                         desc: `KaKao`,
                         internIds:[2]
                     },
+                    {
+                        id: 3,
+                        imageSrc: require(`@/../public/images/Apple.png`),
+                        header: `Apple`,
+                        desc: `Apple`,
+                        internIds:[]
+                    },
+                    {
+                        id: 4,
+                        imageSrc: require(`@/../public/images/Google.jpg`),
+                        header: `구글`,
+                        desc: `Google`,
+                        internIds:[]
+                    },
                 ],
                 internInfo: [
                     {
                         id: 0,
+                        isShow: true,
                         imageSrc: require(`@/../public/images/Naver.jpg`),
                         internName: `네이버 클라우드 운영팀 인턴`,
                         companyName: `네이버`,
@@ -446,6 +463,7 @@
                     },
                     {
                         id: 1,
+                        isShow: true,
                         imageSrc: require(`@/../public/images/Samsung.png`),
                         internName: `삼성전자 운영팀 인턴`,
                         companyName: `삼성전자`,
@@ -503,6 +521,7 @@
                     },
                     {
                         id: 2,
+                        isShow: true,
                         imageSrc: require(`@/../public/images/Kakao.png`),
                         internName: `카카오 비즈니스 플랫폼 인턴`,
                         companyName: `카카오`,
@@ -561,15 +580,47 @@
                 ],
             }
         },
+        /*eslint-disable*/
+        methods : {
+            filterApplyList: function (query) {
+                this.internInfo
+                    .forEach(el => {el.isShow = false});
+                this.internInfo
+                    .filter((el) => el.companyName.includes(query))
+                    .forEach(el => {el.isShow = true});
+            },
+            loadModal1(id) {
+                this.modalId = id
+                this.modal1 = !this.modal1
+            },
+            toggle1() {
+                this.modal1 = !this.modal1
+            },
+            toggle2() {
+                this.modal2 = !this.modal2
+                this.modal1 = false
+            },
+        },
+        created() {
+            this.$store.subscribe((mutation, state) => {
+                if(mutation.type === 'updateSearchQuery') {
+                    this.filterApplyList(state.searchQuery);
+                    console.log(`Store Status : `,state);
+                }
+            })
+        }
     }
 </script>
 
 <style scoped>
     .dimmer {
+        position: fixed;
+        top: 60px;
         width: 100%;
-        height: 100vh;
+        height: calc(100vh - 60px);
         /*background-color: rgba(52, 73, 94, 0.3);*/
         background-color: rgba(0, 0, 0, 0.68);
+        z-index: -1;
     }
 
     .home-container {
