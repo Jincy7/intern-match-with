@@ -7,23 +7,30 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        searchQuery: ''
+        searchQuery: '',
+        userType: undefined,
     },
     getters: {
         getSearchQuery(state) {
             return state.searchQuery;
-        }
+        },
     },
     mutations: {
         updateSearchQuery(state, payload) {
-            console.log(`store.js - ${payload.searchQuery}`);
             state.searchQuery = payload.searchQuery;
             return state.searchQuery;
+        },
+        updateLoginType(state, payload) {
+            state.userType = payload.userType;
+            return state.userType;
         }
     },
     actions: {
         updateSearchQuery(context) {
             return context.commit('updateSearchQuery');
+        },
+        updateLoginType(context) {
+            return context.commit('updateLoginType');
         }
     }
 });

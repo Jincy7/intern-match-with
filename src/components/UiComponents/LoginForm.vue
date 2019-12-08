@@ -5,13 +5,13 @@
             <sui-form>
                 <sui-form-field>
                     <label>아이디</label>
-                    <input type="text" placeholder="ID" >
+                    <input type="text" placeholder="ID" v-model="id" >
                 </sui-form-field>
                 <sui-form-field>
                     <label>비밀번호</label>
-                    <input type="password" placeholder="Password" >
+                    <input type="password" placeholder="Password" v-model="pass" >
                 </sui-form-field>
-                <sui-button type="submit">Login</sui-button>
+                <sui-button @click="login">Login</sui-button>
                 <sui-button>Register</sui-button>
             </sui-form>
         </sui-card-content>
@@ -20,7 +20,26 @@
 
 <script>
     export default {
-        name: "LoginForm"
+        name: "LoginForm",
+        data: () => {
+            return {
+                id: ``,
+                pass: ``,
+            }
+        },
+        methods: {
+            login: function () {
+                let userType = (this.id === `studentUser`) ? `student` : `company`;
+                this.$store.commit('updateLoginType', {
+                    userType: userType,
+                });
+                this.clearInput();
+            },
+            clearInput: function () {
+                this.id = ``;
+                this.pass = ``;
+            }
+        }
     }
 </script>
 

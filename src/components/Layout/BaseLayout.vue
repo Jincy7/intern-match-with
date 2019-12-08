@@ -35,7 +35,8 @@
                 <li><a href="#">Intern Search</a></li>
                 <!--        <li><a class="codrops-icon codrops-icon-prev" href="#"><span>Previous Demo</span></a></li>-->
                 <!--    TODO : 로그인 후에는 아래 코드 로그인 된 걸로 하고 사용자 이름 보여주고, 로그아웃 버튼 표출  -->
-                <li><a @click="toggleLogin" href="#"><span>Login for Service</span></a></li>
+                <li v-if="isLogin"><a @click="logout" href="#"><span> {{userType}}님, 환영합니다!</span></a></li>
+                <li v-else><a @click="toggleLogin" href="#"><span>Login for Service</span></a></li>
             </ul>
             <div v-show="isLoginClicked" class="login-form-container">
                 <login-form></login-form>
@@ -59,13 +60,28 @@
         data: () => {
             return {
                 isLogin: false,
+                userType: undefined,
                 isLoginClicked: false,
             }
         },
         methods : {
             toggleLogin: function () {
                 this.isLoginClicked = !this.isLoginClicked;
+            },
+            logout: function () {
+                this.$store.commit('updateLoginType', {
+                    userType: undefined,
+                })
             }
+        },
+        created() {
+            this.$store.subscribe((mutation, state) => {
+                if(mutation.type === 'updateLoginType') {
+                    this.isLogin = !!state.userType;
+                    this.userType = state.userType;
+                    if (this.isLogin) this.toggleLogin();
+                }
+            })
         }
     }
 </script>

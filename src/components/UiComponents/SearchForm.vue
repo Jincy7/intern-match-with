@@ -25,8 +25,6 @@
         },
         methods: {
             search: function () {
-                /*eslint-disable*/
-                console.log(this.$store);
                 this.$store.commit('updateSearchQuery', {
                     searchQuery: this.passedQuery
                 });
