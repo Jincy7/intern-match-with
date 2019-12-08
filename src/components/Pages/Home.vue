@@ -19,7 +19,7 @@
                         <sui-card-header>진행중인 공고 목록</sui-card-header>
                         <sui-card-meta>기업에서 진행중인 인턴 공고입니다!</sui-card-meta>
                         <sui-list divided relaxed>
-                            <sui-list-item :key="info" v-for="info in internInfo">
+                            <sui-list-item v-show="info.isShow" :key="info" v-for="info in internInfo">
                                 <sui-image :src="info.imageSrc" size="mini"/>
                                 <sui-list-content>
                                     <a is="sui-list-header" v-on:click="loadModal1(info.id)">{{info.internName}}</a>
@@ -125,6 +125,7 @@
                 internInfo: [
                     {
                         id: 0,
+                        isShow: true,
                         imageSrc: require(`@/../public/images/Naver.jpg`),
                         internName: `네이버 클라우드 운영팀 인턴`,
                         companyName: `네이버`,
@@ -185,6 +186,7 @@
                     },
                     {
                         id: 1,
+                        isShow: true,
                         imageSrc: require(`@/../public/images/Samsung.png`),
                         internName: `삼성전자 운영팀 인턴`,
                         companyName: `삼성전자`,
@@ -242,6 +244,7 @@
                     },
                     {
                         id: 2,
+                        isShow: true,
                         imageSrc: require(`@/../public/images/Kakao.png`),
                         internName: `카카오 비즈니스 플랫폼 인턴`,
                         companyName: `카카오`,
@@ -320,12 +323,11 @@
         /*eslint-disable*/
         methods : {
             filterApplyList: function (query) {
-                // TODO : 진호형이 만든 인턴 공고 데이터 객체에서 데이터 검색해서 화면에 다시 그리기
-                // 데이터 객체에 isShow 값 만들어서 해당 값으로 v-show 걸어주기
-                // 만약 쿼리가 비어있는 경우에는 모든 값
-                // internInfo.foreach(el = > {el.isShow = false});
-                // internInfo.filter((el) => el.name.includes(query)).foreach(el = > {el.isShow = true});
-                console.log(query)
+                this.internInfo
+                    .forEach(el => {el.isShow = false});
+                this.internInfo
+                    .filter((el) => el.companyName.includes(query))
+                    .forEach(el => {el.isShow = true});
             },
             loadModal1(id) {
                 this.modalId = id
