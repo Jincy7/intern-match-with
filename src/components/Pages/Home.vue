@@ -79,6 +79,7 @@
 
 <script>
     import SearchForm from "@/components/UiComponents/SearchForm";
+
     export default {
         name: "Home",
         components: {
@@ -104,6 +105,25 @@
                     },
                 ]
             }
+        },
+        /*eslint-disable*/
+        methods : {
+            filterApplyList: function (query) {
+                // TODO : 진호형이 만든 인턴 공고 데이터 객체에서 데이터 검색해서 화면에 다시 그리기
+                // 데이터 객체에 isShow 값 만들어서 해당 값으로 v-show 걸어주기
+                // 만약 쿼리가 비어있는 경우에는 모든 값
+                // internInfo.foreach(el = > {el.isShow = false});
+                // internInfo.filter((el) => el.name.includes(query)).foreach(el = > {el.isShow = true});
+                console.log(query)
+            }
+        },
+        created() {
+            this.$store.subscribe((mutation, state) => {
+                if(mutation.type === 'updateSearchQuery') {
+                    this.filterApplyList(state.searchQuery);
+                    console.log(`Store Status : `,state);
+                }
+            })
         }
     }
 </script>

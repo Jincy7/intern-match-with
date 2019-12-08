@@ -1,10 +1,10 @@
 <template>
     <div class="search-box">
         <a class="gn-icon gn-icon-search"><span>Search</span></a>
-        <input class="search-input" type="text" placeholder="원하는 회사를 검색해 보세요!">
+        <input class="search-input" type="text" placeholder="원하는 회사를 검색해 보세요!" v-model="passedQuery">
         <i class="far fa-times-circle close-button"></i>
 
-        <sui-button class="search-button">
+        <sui-button class="search-button" @click="search">
             <h1>
                 인턴 같이 탐색 하기
                 <span><i class="fas fa-chevron-circle-right"></i></span>
@@ -15,8 +15,28 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
     export default {
-        name: "Search"
+        name: "Search",
+        data: () => {
+          return {
+              passedQuery: ''
+          }
+        },
+        methods: {
+            search: function () {
+                /*eslint-disable*/
+                console.log(this.$store);
+                this.$store.commit('updateSearchQuery', {
+                    searchQuery: this.passedQuery
+                });
+            }
+        },
+        computed: {
+            ...mapGetters({
+                childQuery: 'getSearchQuery'
+            })
+        }
     }
 </script>
 
