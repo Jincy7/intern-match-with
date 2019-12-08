@@ -14,6 +14,9 @@ export const store = new Vuex.Store({
         getSearchQuery(state) {
             return state.searchQuery;
         },
+        getLoginType(state) {
+            return state.userType;
+        }
     },
     mutations: {
         updateSearchQuery(state, payload) {

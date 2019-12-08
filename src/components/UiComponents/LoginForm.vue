@@ -11,7 +11,9 @@
                     <label>비밀번호</label>
                     <input type="password" placeholder="Password" v-model="pass" >
                 </sui-form-field>
-                <sui-button @click="login">Login</sui-button>
+                <sui-button @click="login">
+                    <span>Login</span>
+                </sui-button>
                 <sui-button>Register</sui-button>
             </sui-form>
         </sui-card-content>
@@ -25,10 +27,11 @@
             return {
                 id: ``,
                 pass: ``,
+                isPending: false,
             }
         },
         methods: {
-            login: function () {
+            login: async function () {
                 let userType = (this.id === `studentUser`) ? `student` : `company`;
                 this.$store.commit('updateLoginType', {
                     userType: userType,
