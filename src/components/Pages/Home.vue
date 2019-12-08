@@ -124,11 +124,18 @@
                         internIds:[2]
                     },
                     {
-                        id: 2,
-                        imageSrc: require(`@/../public/images/Kakao.png`),
-                        header: `카카오`,
-                        desc: `KaKao`,
-                        internIds:[2]
+                        id: 3,
+                        imageSrc: require(`@/../public/images/Apple.png`),
+                        header: `Apple`,
+                        desc: `Apple`,
+                        internIds:[]
+                    },
+                    {
+                        id: 4,
+                        imageSrc: require(`@/../public/images/Google.jpg`),
+                        header: `구글`,
+                        desc: `Google`,
+                        internIds:[]
                     },
                 ],
                 internInfo: [
