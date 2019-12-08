@@ -87,7 +87,7 @@
             <sui-modal v-model="applicantModal">
                 <sui-modal-header>{{internInfo[modalId].internName}} 질문</sui-modal-header>
                 <sui-modal-content>
-                    
+
                     <sui-card class="apply-list">
                     <sui-card-content>
                         <sui-card-header>지원자 목록</sui-card-header>
@@ -153,7 +153,7 @@
             <sui-modal v-model="internListModal">
                 <sui-modal-header>{{studentInfo[0].name}}학생</sui-modal-header>
                 <sui-modal-content>
-                    
+
                     <sui-card class="apply-list">
                     <sui-card-content>
                         <sui-card-header>지원자 목록</sui-card-header>
@@ -227,14 +227,6 @@
         /*eslint-disable*/
         methods : {
             filterApplyList: function (query) {
-                // TODO : 진호형이 만든 인턴 공고 데이터 객체에서 데이터 검색해서 화면에 다시 그리기
-                // 데이터 객체에 isShow 값 만들어서 해당 값으로 v-show 걸어주기
-                // 만약 쿼리가 비어있는 경우에는 모든 값
-                // internInfo.foreach(el = > {el.isShow = false});
-                // internInfo.filter((el) => el.name.includes(query)).foreach(el = > {el.isShow = true});
-                console.log(query);
-            },
-            filterApplyList: function (query) {
                 this.internInfo
                     .forEach(el => {el.isShow = false});
                 this.internInfo
@@ -275,22 +267,22 @@
             },
             loadApplicantInfo(id) {
                 this.applicantId = id;
-                this.applicantInfoModal = !this.applicantInfoModal; 
+                this.applicantInfoModal = !this.applicantInfoModal;
             },
             positiveToggle(id){
                 this.companyInfo[0].applicants[id].state = 1;
-                this.applicantInfoModal = !this.applicantInfoModal; 
+                this.applicantInfoModal = !this.applicantInfoModal;
             },
             negativeToggle(id){
                 this.companyInfo[0].applicants[id].state = 2;
                 this.applicantInfoModal = !this.applicantInfoModal;
             },
             applicantInfoToggle() {
-                this.applicantInfoModal = !this.applicantInfoModal; 
+                this.applicantInfoModal = !this.applicantInfoModal;
             },
             loadPassModalToggle(id) {
                 this.passModal = !this.passModal;
-                this.internId = id; 
+                this.internId = id;
             },
             passToggle(){
                 this.passModal = !this.passModal;
@@ -316,19 +308,19 @@
                 studentInfo: [
                     {
                         id: 0,
-                        name: '허진호',
+                        name: '김정호',
                         internList:[
                             {
                                 internId: 0,
                                 companyName: 'Naver',
                                 internName:'네이버 클라우드 운영팀 인턴',
-                                state: 0
+                                state: 1
                             },
                             {
                                 internId: 1,
                                 companyName: '삼성전자',
                                 internName:'삼성전자 운영팀 인턴',
-                                state: 1
+                                state: 0
                             },
                             {
                                 internId: 2,
@@ -349,10 +341,10 @@
                         applicants:[
                             {
                                 id: 0,
-                                name: '허진호',
+                                name: '김정호',
                                 internName:'네이버 클라우드 운영팀 인턴',
                                 internId: 0,
-                                state: 2,
+                                state: 0,
                                 answer:
                                 [
                                     'ddf',
@@ -362,7 +354,7 @@
                             },
                             {
                                 id: 1,
-                                name: '진창엽',
+                                name: '허진호',
                                 internName:'네이버 클라우드 운영팀 인턴',
                                 internId: 0,
                                 state: 1,
@@ -375,10 +367,10 @@
                             },
                             {
                                 id: 2,
-                                name: '김정호',
+                                name: '진창엽',
                                 internName:'네이버 클라우드 운영팀 인턴',
                                 internId: 0,
-                                state: 0,
+                                state: 2,
                                 answer:
                                 [
                                     'ddf',
@@ -594,7 +586,28 @@
 
                             }
                         ]
-                    }
+                    },
+                    {
+                        id: 3,
+                        isShow: true,
+                        imageSrc: require(`@/../public/images/Google.jpg`),
+                        internName: `구글 검색 플랫폼 인턴`,
+                        companyName: `Google`,
+                    },
+                    {
+                        id: 4,
+                        isShow: true,
+                        imageSrc: require(`@/../public/images/Naver.jpg`),
+                        internName: `네이버 예약 플랫폼 BE 인턴`,
+                        companyName: `네이버`,
+                    },
+                    {
+                        id: 5,
+                        isShow: true,
+                        imageSrc: require(`@/../public/images/Naver.jpg`),
+                        internName: `네이버 Travel 플랫폼 FE 인턴`,
+                        companyName: `네이버`,
+                    },
                 ],
             }
         },

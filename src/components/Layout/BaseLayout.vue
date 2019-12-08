@@ -38,7 +38,7 @@
 
                 <li v-if="isLogin"><a @click="logout" href="#">
                     <span v-if="isPending"><i class="fa-2x fas fa-circle-notch fa-spin"></i></span>
-                    <span v-else> {{userType}}님, 환영합니다!</span>
+                    <span v-else> {{getUserName()}}님, 환영합니다!</span>
                 </a></li>
                 <li v-else><a @click="toggleLogin" href="#"><span>Login for Service</span></a></li>
             </ul>
@@ -71,6 +71,9 @@
             }
         },
         methods : {
+            getUserName: function () {
+              return this.userType === `student` ? `김정호` : `Naver`;
+            },
             toggleLogin: function () {
                 this.isLoginClicked = !this.isLoginClicked;
             },
