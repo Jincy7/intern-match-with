@@ -1,7 +1,9 @@
 <template>
     <v-fragment>
-        <div class="dimmer">
+        <div class="dimmer"></div>
+        <div>
             <header>
+                <h1>참여중인 기업</h1>
                <sui-card-group :items-per-row="5">
                    <sui-card :key="company" v-for="company in companyInfo">
                        <sui-image :src="company.imageSrc" size="large"/>
@@ -113,6 +115,13 @@
                         header: `네이버`,
                         desc: `Naver`,
                         internIds:[0]
+                    },
+                    {
+                        id: 2,
+                        imageSrc: require(`@/../public/images/Kakao.png`),
+                        header: `카카오`,
+                        desc: `KaKao`,
+                        internIds:[2]
                     },
                     {
                         id: 2,
@@ -354,10 +363,13 @@
 
 <style scoped>
     .dimmer {
+        position: fixed;
+        top: 60px;
         width: 100%;
-        height: 100vh;
+        height: calc(100vh - 60px);
         /*background-color: rgba(52, 73, 94, 0.3);*/
         background-color: rgba(0, 0, 0, 0.68);
+        z-index: -1;
     }
 
     .home-container {
