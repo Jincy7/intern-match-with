@@ -234,6 +234,24 @@
                 // internInfo.filter((el) => el.name.includes(query)).foreach(el = > {el.isShow = true});
                 console.log(query);
             },
+            filterApplyList: function (query) {
+                this.internInfo
+                    .forEach(el => {el.isShow = false});
+                this.internInfo
+                    .filter((el) => el.companyName.includes(query))
+                    .forEach(el => {el.isShow = true});
+            },
+            loadModal1(id) {
+                this.modalId = id
+                this.modal1 = !this.modal1
+            },
+            toggle1() {
+                this.modal1 = !this.modal1
+            },
+            toggle2() {
+                this.modal2 = !this.modal2
+                this.modal1 = false
+            },
             loadInternInfoModal(id) {
                 this.modalId = id;
                 this.internInfoModal = !this.internInfoModal;
@@ -579,27 +597,6 @@
                     }
                 ],
             }
-        },
-        /*eslint-disable*/
-        methods : {
-            filterApplyList: function (query) {
-                this.internInfo
-                    .forEach(el => {el.isShow = false});
-                this.internInfo
-                    .filter((el) => el.companyName.includes(query))
-                    .forEach(el => {el.isShow = true});
-            },
-            loadModal1(id) {
-                this.modalId = id
-                this.modal1 = !this.modal1
-            },
-            toggle1() {
-                this.modal1 = !this.modal1
-            },
-            toggle2() {
-                this.modal2 = !this.modal2
-                this.modal1 = false
-            },
         },
         created() {
             this.$store.subscribe((mutation, state) => {
