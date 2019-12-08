@@ -12,7 +12,7 @@
                                     <a class="gn-icon gn-icon-search"><span>검색하기</span></a>
                                 </li>
                                 <li>
-                                    <a class="gn-icon gn-icon-download" v-bind:href="'/companies/' + this.loginCompanyId">지원 현황 확인</a>
+                                    <a class="gn-icon gn-icon-download" v-on:click="loadApplicantModal">지원 현황 확인</a>
 <!--                                    <ul class="gn-submenu">-->
 <!--                                        <li><a class="gn-icon gn-icon-illustrator">Vector Illustrations</a></li>-->
 <!--                                        <li><a class="gn-icon gn-icon-photoshop">Photoshop files</a></li>-->
@@ -85,6 +85,16 @@
                     this.isPending = false;
                 },1000);
             },
+            loadApplicantModal: function () {
+                !this.isLogin ? alert('로그인해주세요!'): this.userType=='company' ? this.$store.commit('updateApplicantModal', {
+                    applicantModal: !this.getApplicantModal
+                }) : this.$store.commit('updateInternListModal', {
+                    internListModal: !this.getInternListModal
+                })
+                // this.$store.commit('updateInternListModal', {
+                //     internListModal: !this.computedInternListModal
+                // })
+            },
         },
         created () {
             this.$store.subscribe(async (mutation, state) => {
@@ -100,7 +110,9 @@
         },
         computed: {
             ...mapGetters({
-                computedUserType: 'getLoginType'
+                computedUserType: 'getLoginType',
+                computedApplicantModal: 'getApplicantModal',
+                computedInternListModal: 'getInternListModal'
             })
         }
     }

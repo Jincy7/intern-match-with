@@ -22,7 +22,7 @@
                             <sui-list-item :key="info" v-for="info in internInfo">
                                 <sui-image :src="info.imageSrc" size="mini"/>
                                 <sui-list-content>
-                                    <a is="sui-list-header" v-on:click="loadModal1(info.id)">{{info.internName}}</a>
+                                    <a is="sui-list-header" v-on:click="loadInternInfoModal(info.id)">{{info.internName}}</a>
                                     <a is="sui-list-description">{{info.companyName}}</a>
                                 </sui-list-content>
                             </sui-list-item>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div>
-            <sui-modal v-model="modal1">
+            <sui-modal v-model="internInfoModal">
                 <sui-modal-header>{{internInfo[modalId].internName}}</sui-modal-header>
                 <sui-modal-content>
                     <sui-card class="apply-list">
@@ -52,11 +52,11 @@
                     </sui-card>
                 </sui-modal-content>
                 <sui-modal-actions>
-                    <sui-button primary @click.native="toggle2">지원하기</sui-button>
-                    <sui-button secondary @click.native="toggle1">취소</sui-button>
+                    <sui-button primary @click.native="internApplyModalToggle">지원하기</sui-button>
+                    <sui-button secondary @click.native="internInfoModalToggle">취소</sui-button>
                 </sui-modal-actions>
             </sui-modal>
-            <sui-modal v-model="modal2">
+            <sui-modal v-model="internApplyModal">
                 <sui-modal-header>{{internInfo[modalId].internName}} 질문</sui-modal-header>
                 <sui-modal-content>
                     <sui-card class="apply-list">
@@ -78,8 +78,129 @@
                     </sui-card>
                 </sui-modal-content>
                 <sui-modal-actions>
-                    <sui-button primary @click.native="toggle2">제출하기</sui-button>
-                    <sui-button secondary @click.native="toggle2">취소</sui-button>
+                    <sui-button primary @click.native="internApplyModalToggle">제출하기</sui-button>
+                    <sui-button secondary @click.native="internApplyModalToggle">취소</sui-button>
+                </sui-modal-actions>
+            </sui-modal>
+            <sui-modal v-model="applicantModal">
+                <sui-modal-header>{{internInfo[modalId].internName}} 질문</sui-modal-header>
+                <sui-modal-content>
+                    
+                    <sui-card class="apply-list">
+                    <sui-card-content>
+                        <sui-card-header>지원자 목록</sui-card-header>
+                        <sui-card-meta>고객님 기업에 지원한 지원자입니다.</sui-card-meta>
+                        <sui-table celled>
+                            <sui-table-header>
+                            <sui-table-row>
+                                <sui-table-header-cell>지원자명</sui-table-header-cell>
+                                <sui-table-header-cell>지원 인턴명</sui-table-header-cell>
+                                <sui-table-header-cell>상태</sui-table-header-cell>
+                            </sui-table-row>
+                            </sui-table-header>
+                            <sui-table-body>
+                            <sui-table-row :key="app" v-for="app in companyInfo[0].applicants">
+                                <sui-table-cell>
+                                    <a is="sui-list-header" v-on:click="loadApplicantInfo(app.id)">
+                                        {{app.name}}
+                                    </a>
+                                </sui-table-cell>
+                                <sui-table-cell>{{app.internName}}</sui-table-cell>
+                                <sui-table-cell>
+                                    <sui-button v-if="app.state==0" content="대기"/>
+                                    <sui-button v-if="app.state==1" positive content="합격"/>
+                                    <sui-button v-if="app.state==2" negative content="불합" />
+                                </sui-table-cell>
+                            </sui-table-row>
+                            </sui-table-body>
+                        </sui-table>
+                    </sui-card-content>
+                    </sui-card>
+                </sui-modal-content>
+                <sui-modal-actions>
+                    <sui-button secondary v-on:click="applicantModalToggle">취소</sui-button>
+                </sui-modal-actions>
+            </sui-modal>
+            <sui-modal v-model="applicantInfoModal">
+                <sui-modal-header>{{companyInfo[0].applicants[applicantId].internName}} 답변</sui-modal-header>
+                <sui-modal-content>
+                    <sui-card class="apply-list">
+                        <sui-card-content>
+                            <sui-list divided relaxed>
+                                <sui-list-item :key="ques" v-for="(ques, index) in internInfo[companyInfo[0].applicants[applicantId].internId].questions">
+                                    <sui-list-icon size="large" vertical-align="middle"/>
+                                    <sui-list-content>
+                                        <a is="sui-list-header">{{ques}}</a>
+                                        <div class="ui form">
+                                        <div class="field">
+                                            <textarea v-model="companyInfo[0].applicants[applicantId].answer[index]"></textarea>
+                                        </div>
+                                        </div>
+                                    </sui-list-content>
+                                </sui-list-item>
+                            </sui-list>
+                        </sui-card-content>
+                    </sui-card>
+                </sui-modal-content>
+                <sui-modal-actions>
+                    <sui-button positive v-on:click="positiveToggle(applicantId)">합격</sui-button>
+                    <sui-button negative v-on:click="negativeToggle(applicantId)">불합격</sui-button>
+                    <sui-button secondary v-on:click="applicantInfoToggle">취소</sui-button>
+                </sui-modal-actions>
+            </sui-modal>
+            <sui-modal v-model="internListModal">
+                <sui-modal-header>{{studentInfo[0].name}}학생</sui-modal-header>
+                <sui-modal-content>
+                    
+                    <sui-card class="apply-list">
+                    <sui-card-content>
+                        <sui-card-header>지원자 목록</sui-card-header>
+                        <sui-card-meta>고객님이 지원하신 기업 목록입니다.</sui-card-meta>
+                        <sui-table celled>
+                            <sui-table-header>
+                            <sui-table-row>
+                                <sui-table-header-cell>회사명</sui-table-header-cell>
+                                <sui-table-header-cell>지원 인턴명</sui-table-header-cell>
+                                <sui-table-header-cell>상태</sui-table-header-cell>
+                            </sui-table-row>
+                            </sui-table-header>
+                            <sui-table-body>
+                            <sui-table-row :key="intern" v-for="intern in studentInfo[0].internList">
+                                <sui-table-cell>{{intern.companyName}}</sui-table-cell>
+                                <sui-table-cell>{{intern.internName}}</sui-table-cell>
+                                <sui-table-cell>
+                                    <sui-button v-if="intern.state==0" content="대기"/>
+                                    <sui-button v-if="intern.state==1" v-on:click="loadPassModalToggle(intern.id)" positive content="합격"/>
+                                    <sui-button v-if="intern.state==2" negative content="불합" />
+                                </sui-table-cell>
+                            </sui-table-row>
+                            </sui-table-body>
+                        </sui-table>
+                    </sui-card-content>
+                    </sui-card>
+                </sui-modal-content>
+                <sui-modal-actions>
+                    <sui-button secondary v-on:click="internListModalToggle">취소</sui-button>
+                </sui-modal-actions>
+            </sui-modal>
+            <sui-modal v-model="passModal">
+                <sui-modal-header>{{companyInfo[0].applicants[applicantId].internName}} 결과</sui-modal-header>
+                <sui-modal-content>
+                    <sui-card class="apply-list">
+                        <sui-card-content>
+                            <sui-list divided relaxed>
+                                <sui-list-item>
+                                    <sui-list-icon size="large" vertical-align="middle"/>
+                                    <sui-list-content>
+                                        <a is="sui-list-header">축하합니다! 합격하셨습니다!!</a>
+                                    </sui-list-content>
+                                </sui-list-item>
+                            </sui-list>
+                        </sui-card-content>
+                    </sui-card>
+                </sui-modal-content>
+                <sui-modal-actions>
+                    <sui-button secondary v-on:click="passToggle">취소</sui-button>
                 </sui-modal-actions>
             </sui-modal>
         </div>
@@ -87,6 +208,7 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
     import SearchForm from "@/components/UiComponents/SearchForm";
 
     export default {
@@ -94,18 +216,157 @@
         components: {
             SearchForm
         },
+        computed: {
+            ...mapGetters({
+                applicantModal: 'getApplicantModal',
+                internListModal: 'getInternListModal'
+            })
+        },
+        /*eslint-disable*/
+        methods : {
+            filterApplyList: function (query) {
+                // TODO : 진호형이 만든 인턴 공고 데이터 객체에서 데이터 검색해서 화면에 다시 그리기
+                // 데이터 객체에 isShow 값 만들어서 해당 값으로 v-show 걸어주기
+                // 만약 쿼리가 비어있는 경우에는 모든 값
+                // internInfo.foreach(el = > {el.isShow = false});
+                // internInfo.filter((el) => el.name.includes(query)).foreach(el = > {el.isShow = true});
+                console.log(query);
+            },
+            loadInternInfoModal(id) {
+                this.modalId = id;
+                this.internInfoModal = !this.internInfoModal;
+            },
+            internInfoModalToggle() {
+                this.internInfoModal = !this.internInfoModal;
+            },
+            internApplyModalToggle() {
+                this.internApplyModal = !this.internApplyModal;
+                this.internInfoModal = false;
+            },
+            applicantModalToggle: function () {
+                this.$store.commit('updateApplicantModal', {
+                    applicantModal: !this.applicantModal
+                });
+            },
+            internListModalToggle: function () {
+                this.$store.commit('updateInternListModal', {
+                    internListModal: !this.internListModal
+                });
+            },
+            loadApplicantInfo(id) {
+                this.applicantId = id;
+                this.applicantInfoModal = !this.applicantInfoModal; 
+            },
+            positiveToggle(id){
+                this.companyInfo[0].applicants[id].state = 1;
+                this.applicantInfoModal = !this.applicantInfoModal; 
+            },
+            negativeToggle(id){
+                this.companyInfo[0].applicants[id].state = 2;
+                this.applicantInfoModal = !this.applicantInfoModal;
+            },
+            applicantInfoToggle() {
+                this.applicantInfoModal = !this.applicantInfoModal; 
+            },
+            loadPassModalToggle(id) {
+                this.passModal = !this.passModal;
+                this.internId = id; 
+            },
+            passToggle(){
+                this.passModal = !this.passModal;
+            }
+        },
+        created() {
+            this.$store.subscribe((mutation, state) => {
+                if(mutation.type === 'updateSearchQuery') {
+                    this.filterApplyList(state.searchQuery);
+                    console.log(`Store Status : `,state);
+                }
+            })
+        },
         data: () => {
             return {
                 modalId: 0,
-                modal1 : false,
-                modal2: false,
+                applicantId: 0,
+                internId:0,
+                internInfoModal: false,
+                internApplyModal: false,
+                applicantInfoModal: false,
+                passModal: false,
+                studentInfo: [
+                    {
+                        id: 0,
+                        name: '허진호',
+                        internList:[
+                            {
+                                internId: 0,
+                                companyName: 'Naver',
+                                internName:'네이버 클라우드 운영팀 인턴',
+                                state: 0
+                            },
+                            {
+                                internId: 1,
+                                companyName: '삼성전자',
+                                internName:'삼성전자 운영팀 인턴',
+                                state: 1
+                            },
+                            {
+                                internId: 2,
+                                companyName: '카카오',
+                                internName:'카카오 비즈니스 플랫폼 인턴',
+                                state: 2
+                            },
+                        ]
+                    },
+
+                ],
                 companyInfo: [
                     {
                         id: 0,
                         imageSrc: require(`@/../public/images/Samsung.png`),
                         header: `삼성`,
                         desc: `Samsung`,
-                        internIds:[1]
+                        applicants:[
+                            {
+                                id: 0,
+                                name: '허진호',
+                                internName:'네이버 클라우드 운영팀 인턴',
+                                internId: 0,
+                                state: 2,
+                                answer:
+                                [
+                                    'ddf',
+                                    'dfsf',
+                                    'dfseff'
+                                ]
+                            },
+                            {
+                                id: 1,
+                                name: '진창엽',
+                                internName:'네이버 클라우드 운영팀 인턴',
+                                internId: 0,
+                                state: 1,
+                                answer:
+                                [
+                                    'ddf',
+                                    'dfsf',
+                                    'dfseff'
+                                ]
+                            },
+                            {
+                                id: 2,
+                                name: '김정호',
+                                internName:'네이버 클라우드 운영팀 인턴',
+                                internId: 0,
+                                state: 0,
+                                answer:
+                                [
+                                    'ddf',
+                                    'dfsf',
+                                    'dfseff'
+                                ]
+                            },
+                        ]
                     },
                     {
                         id: 1,
@@ -298,55 +559,8 @@
                         ]
                     }
                 ],
-                studentInfo: [
-                    {
-                        id: 0,
-                        name: '허진호',
-                        companyList:[
-                            {
-                                id:0,
-                                answer:[
-                                    'ddf',
-                                    'dfsf',
-                                    'dfseff'
-                                ]
-                            },
-                        ]
-                    },
-
-                ]
             }
         },
-        /*eslint-disable*/
-        methods : {
-            filterApplyList: function (query) {
-                // TODO : 진호형이 만든 인턴 공고 데이터 객체에서 데이터 검색해서 화면에 다시 그리기
-                // 데이터 객체에 isShow 값 만들어서 해당 값으로 v-show 걸어주기
-                // 만약 쿼리가 비어있는 경우에는 모든 값
-                // internInfo.foreach(el = > {el.isShow = false});
-                // internInfo.filter((el) => el.name.includes(query)).foreach(el = > {el.isShow = true});
-                console.log(query)
-            },
-            loadModal1(id) {
-                this.modalId = id
-                this.modal1 = !this.modal1
-            },
-            toggle1() {
-                this.modal1 = !this.modal1
-            },
-            toggle2() {
-                this.modal2 = !this.modal2
-                this.modal1 = false
-            },
-        },
-        created() {
-            this.$store.subscribe((mutation, state) => {
-                if(mutation.type === 'updateSearchQuery') {
-                    this.filterApplyList(state.searchQuery);
-                    console.log(`Store Status : `,state);
-                }
-            })
-        }
     }
 </script>
 
