@@ -2,9 +2,9 @@
     <div class="search-box">
         <a class="gn-icon gn-icon-search"><span>Search</span></a>
         <input class="search-input" type="text" placeholder="원하는 회사를 검색해 보세요!" v-model="passedQuery">
-        <i class="far fa-times-circle close-button"></i>
+        <i class="far fa-times-circle close-button" @click="clearQuery"></i>
 
-        <sui-button class="search-button" @click="search">
+        <sui-button class="search-button" @click="updateQuery">
             <h1>
                 인턴 같이 탐색 하기
                 <span><i class="fas fa-chevron-circle-right"></i></span>
@@ -24,10 +24,14 @@
           }
         },
         methods: {
-            search: function () {
+            updateQuery: function () {
                 this.$store.commit('updateSearchQuery', {
                     searchQuery: this.passedQuery
                 });
+            },
+            clearQuery: function () {
+                this.passedQuery = ``;
+                this.updateQuery();
             }
         },
         computed: {
